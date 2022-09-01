@@ -1,17 +1,30 @@
-from flask_restful import Resource
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+router = APIRouter()
+
+class Funcionario(BaseModel):
+    codigo: int = None
+    nome: str
+    matricula: str
+    cpf: str
+    telefone: str = None
+    grupo: int
+    senha: str = None
 
 # Criar os endpoints de Funcionario: GET, POST, PUT, DELETE
+@router.get("/funcionario/{id}", tags=["funcionario"])
+def get_funcionario(id: int):
+    return {"msg": "get executado"}, 200
+    
+@router.post("/funcionario/{id}", tags=["funcionario"])
+def post_funcionario(id: int, f: Funcionario):
+    return {"msg": "post executado", "id": id, "nome": f.nome, "cpf": f.cpf, "telefone": f.telefone}, 200
 
-class Funcionario(Resource):
+@router.put("/funcionario/{id}", tags=["funcionario"])
+def put_funcionario(id: int, f: Funcionario):
+    return {"msg": "put executado", "id": id, "nome": f.nome, "cpf": f.cpf, "telefone": f.telefone}, 201
 
-    def get(self, id):
-        return {"msg": "GET Funcionario executado"}, 200
-
-    def post(self, id):
-        return {"msg": "POST Funcionario executado"}, 201
-
-    def put(self, id):
-        return {"msg": "PUT Funcionario executado"}, 200
-
-    def delete(self, id):
-        return {"msg": "DELETE Funcionario executado"}, 200
+@router.delete("/funcionario/{id}", tags=["funcionario"])
+def delete_funcionario(id: int):
+    return {"msg": "delete executado"}, 201

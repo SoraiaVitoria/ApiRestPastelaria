@@ -1,18 +1,11 @@
-from flask import Flask
-from flask_restful import Api
- 
-# import das classes com os endpoint
-from FuncionarioDAO import Funcionario
-from ClienteDAO import Cliente
+from fastapi import FastAPI
 
-app = Flask(__name__)
-api = Api(app)
+import FuncionarioDAO
+import ClienteDAO
+import ProdutoDAO
 
-#mapeamento dos endpoints
-api.add_resource(Funcionario, "/funcionario/<int:id>", endpoint = 'funcionario')
-api.add_resource(Cliente, "/cliente/<int:id>", endpoint = 'cliente')
+app = FastAPI()
 
-if __name__ == "__main__":
-    """ Inicia a API Flask RESTful """
-
-app.run(host='0.0.0.0', port=5000, debug=True)
+app.include_router(FuncionarioDAO.router)
+app.include_router(ClienteDAO.router)
+app.include_router(ProdutoDAO.router)

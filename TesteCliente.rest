@@ -1,7 +1,7 @@
 ### Verbo GET – listar
-GET http://localhost:5000/cliente/0 HTTP/1.1
+GET http://localhost:8000/cliente/0 HTTP/1.1
 ### Verbo POST – adicionar
-POST http://127.0.0.1:5000/cliente/4 HTTP/1.1
+POST http://127.0.0.1:8000/cliente/4 HTTP/1.1
 content-type: application/json
 
 {
@@ -12,10 +12,11 @@ content-type: application/json
     "dia_fiado" : 1, 
     "senha" : "bolinhas"
 }
-### Verbo PUT – atualiza 
-PUT http://127.0.0.1:5000/cliente/2 HTTP/1.1
 
+### Verbo PUT – atualiza 
+PUT http://127.0.0.1:8000/cliente/2 HTTP/1.1
 content-type: application/json
+
 {
     "nome" : "Bolinhas dos Testes", 
     "cpf" : "12345678909", 
@@ -25,4 +26,4 @@ content-type: application/json
     "senha" : "bolinhas"
 }
 ### Verbo DELETE - excluir
-DELETE http://127.0.0.1:5000/cliente/3 HTTP/1.1
+DELETE http://127.0.0.1:8000/cliente/3 HTTP/1.1
