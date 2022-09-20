@@ -1,18 +1,24 @@
-from flask import Flask
-from flask_restful import Api
- 
-# import das classes com os endpoint
-from FuncionarioDAO import Funcionario
-from ClienteDAO import Cliente
+from fastapi import FastAPI
 
-app = Flask(__name__)
-api = Api(app)
+import db
 
-#mapeamento dos endpoints
-api.add_resource(Funcionario, "/funcionario/<int:id>", endpoint = 'funcionario')
-api.add_resource(Cliente, "/cliente/<int:id>", endpoint = 'cliente')
+# import das classes de modelo de persistência
+from mod_funcionario.FuncionarioModel import FuncionarioDB
+from mod_cliente.ClienteModel import ClienteDB
+from mod_produto.ProdutoModel import ProdutoDB
 
-if __name__ == "__main__":
-    """ Inicia a API Flask RESTful """
+# import das classes com as rotas/endpoints
+from mod_funcionario import FuncionarioDAO
+from mod_cliente import ClienteDAO
+from mod_produto import ProdutoDAO
 
-app.run(host='0.0.0.0', port=5000, debug=True)
+#import ProdutoDAO
+
+app = FastAPI()
+
+app.include_router(FuncionarioDAO.router)
+app.include_router(ClienteDAO.router)
+app.include_router(ProdutoDAO.router)
+
+# cria, caso não existam, as tabelas de todos os modelos importados
+db.criaTabelas()
