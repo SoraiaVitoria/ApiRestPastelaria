@@ -10,7 +10,10 @@ from PIL import Image
 import db 
 from mod_produto.ProdutoModel import ProdutoDB
 
-router = APIRouter()
+from fastapi import Depends
+import security
+
+router = APIRouter(dependencies=[Depends(security.verify_token), Depends(security.verify_key)])
 
 class Produto(BaseModel):
     nome: str
