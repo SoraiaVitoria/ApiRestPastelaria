@@ -28,6 +28,10 @@ def get_produto():
         session = db.Session()
         # busca todos
         dados = session.query(ProdutoDB).all()
+        
+        for dado in dados:
+            dado.foto = base64.b64encode(dado.foto)
+            
         return dados, 200
     except Exception as e:
         return {"msg": "Erro ao listar", "erro": str(e)}, 404
