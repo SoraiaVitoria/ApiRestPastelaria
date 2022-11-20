@@ -1,10 +1,5 @@
-import base64
-import io
 from fastapi import APIRouter
 from pydantic import BaseModel
-
-import urllib.request
-from PIL import Image
 
 # import da persistência
 import db 
@@ -28,9 +23,6 @@ def get_produto():
         session = db.Session()
         # busca todos
         dados = session.query(ProdutoDB).all()
-        
-        for dado in dados:
-            dado.foto = base64.b64encode(dado.foto)
             
         return dados, 200
     except Exception as e:
@@ -44,9 +36,6 @@ def get_produto(id: int):
         session = db.Session()
         # busca todos
         dados = session.query(ProdutoDB).filter(ProdutoDB.id_produto == id).all()
-        
-        for dado in dados:
-            dado.foto = base64.b64encode(dado.foto)
 
         return dados, 200
     except Exception as e:
@@ -58,7 +47,7 @@ def get_produto(id: int):
 def post_produto(corpo: Produto):
     try:
         session = db.Session()
-        dados = ProdutoDB(None, corpo.nome, corpo.descricao, transform_img(corpo.foto), corpo.valor_unitario)
+        dados = ProdutoDB(None, corpo.nome, corpo.descricao, corpo.foto, corpo.valor_unitario)
         session.add(dados)
         session.commit()
         return {"msg": "Cadastrado com sucesso!", "id": dados.id_produto}, 200
@@ -76,7 +65,7 @@ def put_produto(id: int, corpo: Produto):
             ProdutoDB.id_produto == id).one()
         dados.nome = corpo.nome
         dados.descricao = corpo.descricao
-        dados.foto = transform_img(corpo.foto)
+        dados.foto = corpo.foto
         dados.valor_unitario = corpo.valor_unitario
         session.add(dados)
         session.commit()
@@ -100,10 +89,3 @@ def delete_produto(id: int):
         return {"msg": "Erro ao excluir", "erro": str(e)}, 406
     finally:
         session.close()
-
-def transform_img(img_url: str):
-    urllib.request.urlretrieve(img_url, "foto")
-    img = Image.open("foto")
-    buf = io.BytesIO()
-    img.save(buf, format = "PNG")
-    return buf.getvalue()
