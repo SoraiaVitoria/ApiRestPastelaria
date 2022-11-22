@@ -69,7 +69,7 @@ def put_produto(id: int, corpo: Produto):
         dados.valor_unitario = corpo.valor_unitario
         session.add(dados)
         session.commit()
-        return {"msg": "Editado com sucesso!", "id": dados.id_produto}, 201
+        return {"msg": "Editado com sucesso!", "id": dados.id_produto}, 200
     except Exception as e:
         session.rollback()
         return {"msg": "Erro ao editar", "erro": str(e)}, 406

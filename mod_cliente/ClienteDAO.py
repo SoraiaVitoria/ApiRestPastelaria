@@ -73,7 +73,7 @@ def put_cliente(id: int, corpo: Cliente):
         dados.senha = corpo.senha
         session.add(dados)
         session.commit()
-        return {"msg": "Editado com sucesso!", "id": dados.id_cliente}, 201
+        return {"msg": "Editado com sucesso!", "id": dados.id_cliente}, 200
     except Exception as e:
         session.rollback()
         return {"msg": "Erro ao editar", "erro": str(e)}, 406
