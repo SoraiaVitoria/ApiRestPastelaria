@@ -73,7 +73,7 @@ def put_funcionario(id: int, corpo: Funcionario):
         dados.grupo = corpo.grupo
         session.add(dados)
         session.commit()
-        return {"msg": "Editado com sucesso!", "id": dados.id_funcionario}, 201
+        return {"msg": "Editado com sucesso!", "id": dados.id_funcionario}, 200
     except Exception as e:
         session.rollback()
         return {"msg": "Erro ao editar", "erro": str(e)}, 406
