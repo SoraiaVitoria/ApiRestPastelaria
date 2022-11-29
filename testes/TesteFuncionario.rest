@@ -8,6 +8,11 @@ GET http://localhost:8000/funcionario/1 HTTP/1.1
 x-token: abcBolinhasToken
 x-key: abcBolinhasKey
 
+### Verbo GET cpf
+GET http://localhost:8000/funcionario/cpf/123.132.123-12 HTTP/1.1
+x-token: abcBolinhasToken
+x-key: abcBolinhasKey
+
 ### Verbo POST – adicionar
 POST http://127.0.0.1:8000/funcionario/ HTTP/1.1
 x-token: abcBolinhasToken
