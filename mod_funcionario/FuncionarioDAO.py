@@ -21,7 +21,7 @@ class Funcionario(BaseModel):
 
 # Criar os endpoints de Funcionario: GET, POST, PUT, DELETE
 @router.get("/funcionario/", tags=["funcionario"])
-def get_funcionario():
+def get_funcionarios():
     try:
         session = db.Session()
         # busca todos
@@ -33,12 +33,27 @@ def get_funcionario():
         session.close()
 
 @router.get("/funcionario/{id}", tags=["funcionario"])
-def get_funcionario(id: int):
+def get_funcionario_por_id(id: int):
     try:
         session = db.Session()
         # busca todos
         dados = session.query(FuncionarioDB).filter(FuncionarioDB.id_funcionario == id).all()
         return dados, 200
+    except Exception as e:
+        return {"msg": "Erro ao listar", "erro": str(e)}, 404
+    finally:
+        session.close()
+
+@router.get("/funcionario/cpf/{cpf}", tags=["funcionario"])
+def get_funcionario_por_cpf(cpf: str):
+    try:
+        session = db.Session()
+        # busca todos
+        dados = session.query(FuncionarioDB).filter(FuncionarioDB.cpf == cpf).all()
+        if(len(dados) > 0):
+            return dados, 200
+        else:
+            return {"msg": "Falha ao buscar usuário", "erro": "404"}, 404
     except Exception as e:
         return {"msg": "Erro ao listar", "erro": str(e)}, 404
     finally:
